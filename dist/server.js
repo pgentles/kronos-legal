@@ -72,7 +72,7 @@ app.get('/openapi.json', (_req, res) => {
                     summary: 'Analyze consumer complaint for statutory violations',
                     tags: ['Legal Analysis'],
                     'x-payment-info': {
-                        price: { mode: 'fixed', currency: 'USD', amount: '0.050000' },
+                        price: { mode: 'fixed', currency: 'USD', amount: '0.05' },
                         protocols: [{ x402: {} }],
                     },
                     requestBody: {
@@ -114,7 +114,26 @@ app.get('/openapi.json', (_req, res) => {
                                 },
                             },
                         },
-                        '402': { description: 'Payment Required' },
+                        '402': {
+                            description: 'Payment Required (X402 Protocol)',
+                            headers: {
+                                'X-Payment-Protocol': { schema: { type: 'string', example: 'x402' } },
+                                'Payment-Required': { schema: { type: 'string', description: 'Base64-encoded payment info' } },
+                            },
+                            content: {
+                                'application/json': {
+                                    schema: {
+                                        type: 'object',
+                                        properties: {
+                                            x402Version: { type: 'integer' },
+                                            accepts: { type: 'array', items: { type: 'object' } },
+                                            wallet: { type: 'string' },
+                                            facilitator: { type: 'string' },
+                                        },
+                                    },
+                                },
+                            },
+                        },
                     },
                 },
             },
