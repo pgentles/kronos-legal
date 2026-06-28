@@ -1,7 +1,7 @@
 # Kronos Legal — Project Knowledge Base
 
 > **Last Updated:** 2026-06-28
-> **Status:** Live on Render, NOT YET on x402scan
+> **Status:** Live on Render ✅ — x402scan registration needed
 > **Repo:** https://github.com/pgentles/kronos-legal
 > **Live URL:** https://kronos-legal.onrender.com
 

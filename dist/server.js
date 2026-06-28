@@ -22,23 +22,25 @@ app.use((req, res, next) => {
         return next();
     const payment = req.headers['x402-payment'];
     if (!payment) {
-        res.set('X-Payment-Protocol', 'x402');
-        res.set('X402-Payment', 'required');
-        res.set('Payment-Required', 'eyJ4ND...IifQ==');
+        const wallet = process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270';
+        const resource = `https://${req.headers.host}${req.path}`;
         const accepts = [{
                 network: 'base',
                 asset: 'USDC',
                 amount: '0.05',
                 scheme: 'exact',
-                payTo: process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270',
-                resource: `https://${req.headers.host}${req.path}`,
+                payTo: wallet,
+                resource,
             }];
-        return res.status(402).json({
-            x402Version: 2,
-            accepts,
-            wallet: process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270',
-            facilitator: 'https://x402scan.com/facilitator',
-        });
+        const body = { x402Version: 2, accepts, wallet, facilitator: 'https://x402scan.com/facilitator' };
+        const b64 = Buffer.from(JSON.stringify(body)).toString('base64');
+        res.set('X-Payment-Protocol', 'x402');
+        res.set('X402-Payment', 'required');
+        res.set('Payment-Required', b64);
+        return res.status(402).json(body);
+    }
+    if (req.path.startsWith('/api/') || req.path === '/mcp') {
+        recordQuery('paid', req.path);
     }
     next();
 });
