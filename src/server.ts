@@ -30,8 +30,8 @@ app.use((req: Request, res: Response, next: any) => {
     const wallet = process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270';
     const resource = `https://${req.headers.host}${req.path}`;
     const accepts = [{
-      network: 'base:8453',
-      asset: 'USDC:0x833589cDA06e56F84Bf42eA36F129b80d8a68863',
+      network: 'base',
+      asset: 'USDC:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       amount: '0.05',
       scheme: 'exact',
       payTo: wallet,
@@ -141,8 +141,8 @@ app.get('/openapi.json', (_req: Request, res: Response) => {
                         items: {
                           type: 'object',
                           properties: {
-                            network: { type: 'string', description: 'CAIP-2 chain ID (e.g. base:8453)' },
-                            asset: { type: 'string', description: 'CAIP-2 asset ID (e.g. USDC:0x...)' },
+                            network: { type: 'string', description: 'Chain ticker (e.g. base, solana)' },
+                            asset: { type: 'string', description: 'Asset ID with contract (e.g. USDC:0x...)' },
                             amount: { type: 'string' },
                             scheme: { type: 'string' },
                             payTo: { type: 'string' },
