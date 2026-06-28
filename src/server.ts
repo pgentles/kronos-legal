@@ -30,8 +30,8 @@ app.use((req: Request, res: Response, next: any) => {
     const wallet = process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270';
     const resource = `https://${req.headers.host}${req.path}`;
     const accepts = [{
-      network: 'base',
-      asset: 'USDC:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      network: 'eip155:8453',
+      asset: 'erc20:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
       amount: '0.05',
       scheme: 'exact',
       payTo: wallet,
@@ -83,7 +83,7 @@ app.get('/openapi.json', (_req: Request, res: Response) => {
           'x-payment-info': {
             price: { mode: 'fixed', currency: 'USD', amount: '0.05' },
             protocols: [{ x402: {} }],
-            facilitates: ['https://x402scan.com/facilitator'],
+            facilitator: 'https://x402scan.com/facilitator',
           },
           requestBody: {
             required: true,
@@ -141,8 +141,8 @@ app.get('/openapi.json', (_req: Request, res: Response) => {
                         items: {
                           type: 'object',
                           properties: {
-                            network: { type: 'string', description: 'Chain ticker (e.g. base, solana)' },
-                            asset: { type: 'string', description: 'Asset ID with contract (e.g. USDC:0x...)' },
+                            network: { type: 'string', description: 'CAIP-2 chain ID (e.g. eip155:8453, solana)' },
+                            asset: { type: 'string', description: 'Asset type with contract (e.g. erc20:0x... or SPL: MintAddr)' },
                             amount: { type: 'string' },
                             scheme: { type: 'string' },
                             payTo: { type: 'string' },
