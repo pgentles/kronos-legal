@@ -30,7 +30,7 @@ app.use((req, res, next) => {
                 amount: '0.05',
                 scheme: 'exact',
                 payTo: wallet,
-                resource,
+                resource: { url: resource, method: 'POST' },
                 maxTimeoutSeconds: 30,
             }];
         const body = { x402Version: 2, accepts, wallet, facilitator: 'https://x402scan.com/facilitator' };
@@ -138,7 +138,7 @@ app.get('/openapi.json', (_req, res) => {
                                                         amount: { type: 'string' },
                                                         scheme: { type: 'string' },
                                                         payTo: { type: 'string' },
-                                                        resource: { type: 'string' },
+                                                        resource: { type: 'object', properties: { url: { type: 'string' }, method: { type: 'string' } } },
                                                         maxTimeoutSeconds: { type: 'integer' },
                                                     },
                                                 },
