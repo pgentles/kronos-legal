@@ -30,13 +30,12 @@ app.use((req: Request, res: Response, next: any) => {
     const wallet = process.env.WALLET_ADDRESS || '0x421C25445d6CF7B292933D743E698ed24dE36270';
     const resource = `https://${req.headers.host}${req.path}`;
     const accepts = [{
-      network: 'eip155:8453',
-      asset: 'erc20:0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
+      network: 'base',
+      asset: 'USDC',
       amount: '0.05',
       scheme: 'exact',
       payTo: wallet,
-      resource: { url: resource, method: 'POST' },
-      maxTimeoutSeconds: 30,
+      resource,
     }];
     const body = { x402Version: 2, resource: { url: resource, method: 'POST' }, accepts, wallet, facilitator: 'https://x402scan.com/facilitator' };
     const b64 = Buffer.from(JSON.stringify(body)).toString('base64');
