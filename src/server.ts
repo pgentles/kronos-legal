@@ -37,7 +37,7 @@ app.use((req: Request, res: Response, next: any) => {
       payTo: wallet,
       resource,
     }];
-    const body = { x402Version: 2, resource: { url: resource, method: 'POST' }, accepts, wallet, facilitator: 'https://x402scan.com/facilitator' };
+    const body = { x402Version: 2, accepts, wallet, facilitator: 'https://x402scan.com/facilitator' };
     const b64 = Buffer.from(JSON.stringify(body)).toString('base64');
     res.set('X-Payment-Protocol', 'x402');
     res.set('X402-Payment', 'required');
